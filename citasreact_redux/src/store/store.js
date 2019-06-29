@@ -3,11 +3,15 @@ import thunk from 'redux-thunk';
 // Importar los reducers
 import reducerPrincipal from './../reducers';
 
-const initialState = {};
+// const initialState = {};
 
 const middleware = [thunk];
 
-const store = createStore(reducerPrincipal, initialState, compose(applyMiddleware(...middleware),
+// Agregar Local Storage
+
+const storageState = localStorage.getItem('citas') ? JSON.parse(localStorage.getItem('citas')) : [];
+
+const store = createStore(reducerPrincipal, storageState, compose(applyMiddleware(...middleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ));
 

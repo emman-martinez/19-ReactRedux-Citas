@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Formulario from './Formulario';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class AgregarCita extends Component {
 
@@ -13,7 +13,7 @@ class AgregarCita extends Component {
                     <h2 className="card-title text-center mb-5">Agregar las Citas Aquí</h2>
                     {/* ***** Componente: Formulario ***** */}
                     <Formulario
-                                crearCita={this.props.crearCita}
+                                // crearCita={this.props.crearCita}
                     ></Formulario>
                 </div>
             </div>
@@ -21,8 +21,8 @@ class AgregarCita extends Component {
     }
 }
 
-AgregarCita.propTypes = {
-    crearCita: PropTypes.func.isRequired,
-}
+// AgregarCita.propTypes = {
+//     // crearCita: PropTypes.func.isRequired,
+// }
 
 export default AgregarCita;

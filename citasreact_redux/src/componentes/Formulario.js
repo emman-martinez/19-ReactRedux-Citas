@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import uuid from 'uuid'; // Crea ID único
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+import { agregarCita } from './../actions/citasActions';
+import { mostrarError } from './../actions/errorActions';
+
 class Formulario extends Component {
+
+    componentWillMount() {
+        this.props.mostrarError(false);
+    }
 
     // ***** Refs
     nombreMascotaRef = React.createRef();
@@ -11,24 +20,22 @@ class Formulario extends Component {
     horaRef = React.createRef();
     sintomasRef = React.createRef();
 
-    state = {
-        error: false,
-    }
+    // state = {
+    //     error: false
+    // }
 
     crearNuevaCita = (e) => {
         e.preventDefault();
         // console.log('Hiciste Click');
 
         const mascota = this.nombreMascotaRef.current.value,
-              propietario = this.nombrePropietarioRef.current.value,
-              fecha = this.fechaRef.current.value,
-              hora = this.horaRef.current.value,
-              sintomas = this.sintomasRef.current.value;
+            propietario = this.nombrePropietarioRef.current.value,
+            fecha = this.fechaRef.current.value,
+            hora = this.horaRef.current.value,
+            sintomas = this.sintomasRef.current.value;
 
         if (mascota === '' || propietario === '' || fecha === '' || hora === '' || sintomas === '') {
-            this.setState({
-                error: true,
-            })
+            this.props.mostrarError(true);
         } else {
 
             const nuevaCita = {
@@ -41,23 +48,21 @@ class Formulario extends Component {
             }
 
             // ***** Se envia el objeto hacia el padre
-            this.props.crearCita(nuevaCita);
+            this.props.agregarCita (nuevaCita);
 
             // ***** Reiniciar el formulario
             // console.log(e.currentTarget);
             e.currentTarget.reset();
 
             // ***** Elimina error
-            this.setState({
-                error: false,
-            })
+            this.props.mostrarError(false);
 
         }
 
     }
 
     render() {
-        const existeError = this.state.error;
+        const existeError = this.props.error;
 
         return(
             <div>
@@ -109,7 +114,12 @@ class Formulario extends Component {
 }
 
 Formulario.propTypes = {
-    crearCita: PropTypes.func.isRequired,
+    agregarCita: PropTypes.func.isRequired,
 }
 
-export default Formulario;
+const mapStateToProps = state => ({
+    citas: state.citas.citas,
+    error: state.error.error
+})
+
+export default connect(mapStateToProps, { agregarCita, mostrarError }) (Formulario);
